@@ -131,6 +131,8 @@ claude mcp add --scope user DCC-MCP-Debug -- dcc-mcp-debug
 | 3ds Max | commandPort（`.pyd` + `.ms`） | 3.7 / 3.9 / 3.10 / 3.11 |
 | MotionBuilder | commandPort（`.pyd` + `.py`） | **2.7（Mobu 2020）** / 3.10+ |
 | Maya | commandPort（`.mod` + `userSetup.py`） | 3.7 / 3.9 / 3.10 / 3.11 |
+| Blender（路线图） | bpy socket | 3.10+ |
+| Houdini（路线图） | hou socket | 3.10+ |
 
 连接器 `.pyd` 随包分发，`pip install` 完就在 site-packages 里，不需要自己去找文件。自动安装脚本会调目标 DCC 自带解释器问版本、挑对应 `.pyd`、选对 site-packages 层。
 
@@ -138,11 +140,18 @@ claude mcp add --scope user DCC-MCP-Debug -- dcc-mcp-debug
 
 ---
 
+## 路线图
+
+- **当前覆盖**：3ds Max / MotionBuilder / Maya（commandPort 机制）。
+- **计划接入**：Blender（bpy socket）、Houdini（hou / Python socket）——只要它们也能走"外部 → 内嵌解释器 → 拿 stdout"这种通道，就复用同一套 daemon / client / DAP 架构，在 `DCC_REGISTRY` 里加一行标签映射即可。
+- 远程调试（DCC 和 agent 不在同一台机器）、VSCode 扩展一键 attach。
+
+---
+
 ## 边界（诚实说明）
 
 - 这是**个人 TA / 工具开发时的"改完立刻跑进去看报错"工具**，不是工作室级的多 DCC host 框架。
 - 不做批量资产管线、不做主线程调度封装、不做 Recipe / Marketplace。
-- 只覆盖 commandPort 机制的 DCC（Mobu / Max / Maya）。Blender / Houdini / C4D 这类有自己的 MCP host 生态，不在这个工具的目标里。
 - 视觉效果（弹窗对不对、控件排布好不好看）还是要人眼看——这个工具只能告诉你"代码跑没跑、报了什么错"。
 
 ---

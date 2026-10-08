@@ -30,6 +30,14 @@ dcc-cli mobu select <PID>   # 自动在该进程起 debugpy，VSCode 直接连
 
 ---
 
+## 它是什么
+
+**DCC-MCP-Debug 让 AI 通过自然语言对话直接操作你正在跑的 DCC**：装好一次连接器后，AI 自动发现本机已启动的 DCC 实例，把你说的代码 / 脚本直接发进去执行，拿回 stdout 和 traceback；出问题时 AI 能直接在 DCC 进程里下断点调试。
+
+不重启 DCC、不挂常驻 host、不依赖重型运行时——纯 Python 标准库，`pip install` 完配一行 MCP 配置就能让 Claude Code / Cursor 等 AI 客户端接管。
+
+---
+
 ## 核心特性
 
 ### 1. 运行时 attach，不重启 DCC
@@ -131,8 +139,6 @@ claude mcp add --scope user DCC-MCP-Debug -- dcc-mcp-debug
 | 3ds Max | commandPort（`.pyd` + `.ms`） | 3.7 / 3.9 / 3.10 / 3.11 |
 | MotionBuilder | commandPort（`.pyd` + `.py`） | **2.7（Mobu 2020）** / 3.10+ |
 | Maya | commandPort（`.mod` + `userSetup.py`） | 3.7 / 3.9 / 3.10 / 3.11 |
-| Blender（路线图） | bpy socket | 3.10+ |
-| Houdini（路线图） | hou socket | 3.10+ |
 
 连接器 `.pyd` 随包分发，`pip install` 完就在 site-packages 里，不需要自己去找文件。自动安装脚本会调目标 DCC 自带解释器问版本、挑对应 `.pyd`、选对 site-packages 层。
 
@@ -142,9 +148,7 @@ claude mcp add --scope user DCC-MCP-Debug -- dcc-mcp-debug
 
 ## 路线图
 
-- **当前覆盖**：3ds Max / MotionBuilder / Maya（commandPort 机制）。
-- **计划接入**：Blender（bpy socket）、Houdini（hou / Python socket）——只要它们也能走"外部 → 内嵌解释器 → 拿 stdout"这种通道，就复用同一套 daemon / client / DAP 架构，在 `DCC_REGISTRY` 里加一行标签映射即可。
-- 远程调试（DCC 和 agent 不在同一台机器）、VSCode 扩展一键 attach。
+其他 DCC 软件（Blender、Houdini 等）还在适配中。
 
 ---
 

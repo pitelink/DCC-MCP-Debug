@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dcc-mcp-debug"
+version = "0.1.0"
+description = "MCP server that drives and debugs a locally running MotionBuilder / 3ds Max through its commandPort (TCP port == PID) and debugpy."
+requires-python = ">=3.8"
+keywords = ["mcp", "motionbuilder", "3dsmax", "debugpy", "dcc", "autodesk"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "Topic :: Multimedia :: Graphics :: 3D Modeling",
+]
+
+[project.scripts]
+dcc-mcp-debug = "dcc_mcp_debug.dcc_debug_mcp:main"
+dcc-cli = "dcc_mcp_debug.dcc_client:run_cli"
+
+[tool.setuptools.packages.find]
+include = ["dcc_mcp_debug*"]
+
+[tool.setuptools.package-data]
+dcc_mcp_debug = ["plugin/*"]
